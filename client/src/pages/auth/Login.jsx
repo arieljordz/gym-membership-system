@@ -77,8 +77,9 @@ export default function Login() {
 
           <div className="alert alert-light border mt-4 mb-0 small">
             <strong>Demo accounts</strong>
-            <div>Admin: admin@gym.local / Admin@12345</div>
-            <div>Member: john@example.com / Member@123</div>
+            <div>Admin: arieljordz@gmail.com / Admin@12345</div>
+            <div>Member: suenoariel@gmail.com / Member@123</div>
+            <div>Staff: apsueno@gmail.com / Staff@12345</div>
           </div>
         </div>
       </div>

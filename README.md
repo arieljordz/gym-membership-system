@@ -111,9 +111,9 @@ Open **http://localhost:5173**.
 
 | Role   | Email              | Password      |
 |--------|--------------------|---------------|
-| Admin  | admin@gym.local    | Admin@12345   |
-| Staff  | staff@gym.local    | Staff@12345   |
-| Member | john@example.com   | Member@123    |
+| Admin  | arieljordz@gmail.com    | Admin@12345   |
+| Staff  | apsueno@gmail.com    | Staff@12345   |
+| Member | suenoariel@gmail.com   | Member@123    |
 
 > John already has an **active** membership with an approved payment, an issued QR pass,
 > and sample attendance logs — perfect for testing the scanner and dashboards.

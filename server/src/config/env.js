@@ -28,7 +28,7 @@ const env = {
     apiSecret: process.env.CLOUDINARY_API_SECRET || "",
   },
   admin: {
-    email: process.env.ADMIN_EMAIL || "admin@gym.local",
+    email: process.env.ADMIN_EMAIL || "arieljordz@gmail.com",
     password: process.env.ADMIN_PASSWORD || "Admin@12345",
   },
 };

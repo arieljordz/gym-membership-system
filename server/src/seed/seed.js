@@ -41,14 +41,14 @@ const run = async () => {
   const staff = await User.create({
     firstName: "Front",
     lastName: "Desk",
-    email: "staff@gym.local",
+    email: "apsueno@gmail.com",
     password: "Staff@12345",
     role: "staff",
     gender: "other",
     isEmailVerified: true,
   });
   const members = await User.create([
-    { firstName: "John", lastName: "Doe", email: "john@example.com", password: "Member@123", role: "member", gender: "male", contactNumber: "09170000001", address: "Quezon City", isEmailVerified: true },
+    { firstName: "John", lastName: "Doe", email: "suenoariel@gmail.com", password: "Member@123", role: "member", gender: "male", contactNumber: "09170000001", address: "Quezon City", isEmailVerified: true },
     { firstName: "Jane", lastName: "Smith", email: "jane@example.com", password: "Member@123", role: "member", gender: "female", contactNumber: "09170000002", address: "Makati City", isEmailVerified: true },
     { firstName: "Mark", lastName: "Reyes", email: "mark@example.com", password: "Member@123", role: "member", gender: "male", isEmailVerified: true },
   ]);
@@ -112,8 +112,8 @@ const run = async () => {
   logger.info("===========================================");
   logger.info("Seed complete! Demo credentials:");
   logger.info(`  Admin  : ${env.admin.email} / ${env.admin.password}`);
-  logger.info("  Staff  : staff@gym.local / Staff@12345");
-  logger.info("  Member : john@example.com / Member@123");
+  logger.info("  Staff  : apsueno@gmail.com / Staff@12345");
+  logger.info("  Member : suenoariel@gmail.com / Member@123");
   logger.info("===========================================");
 
   await mongoose.connection.close();
