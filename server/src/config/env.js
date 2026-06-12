@@ -21,7 +21,7 @@ const env = {
     user: process.env.SMTP_USER || "",
     pass: process.env.SMTP_PASS || "",
   },
-  emailFrom: process.env.EMAIL_FROM || "Gym Membership <no-reply@gym.local>",
+  emailFrom: process.env.EMAIL_FROM || "Gym Membership <jordzdevelopment@gmail.com>",
   cloudinary: {
     cloudName: process.env.CLOUDINARY_CLOUD_NAME || "",
     apiKey: process.env.CLOUDINARY_API_KEY || "",

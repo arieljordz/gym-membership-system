@@ -1,5 +1,5 @@
 import Notification from "../models/Notification.js";
-import { sendEmail } from "../utils/email.js";
+import { queueEmail } from "../utils/email.js";
 
 /**
  * Create an in-app notification and optionally send an email.
@@ -26,7 +26,9 @@ export const notify = async ({
   });
 
   if (email && user?.email) {
-    await sendEmail({
+    // Fire-and-forget: the in-app notification is already persisted, so
+    // don't make the request wait on the SMTP round-trip.
+    queueEmail({
       to: user.email,
       subject: title,
       text: message,

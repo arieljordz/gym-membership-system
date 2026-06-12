@@ -10,7 +10,7 @@ import {
   randomToken,
   hashToken,
 } from "../utils/token.js";
-import { sendEmail } from "../utils/email.js";
+import { queueEmail } from "../utils/email.js";
 import { recordAudit } from "../middleware/audit.js";
 
 const buildTokens = (user) => {
@@ -53,26 +53,22 @@ export const register = asyncHandler(async (req, res) => {
   const verifyUrl = `${env.clientUrl}/verify-email?token=${verifyTokenRaw}&email=${encodeURIComponent(
     user.email
   )}`;
-  
-  let emailStatus = "sent";
 
-  try {
-    await sendEmail({
-      to: user.email,
-      subject: "Verify your Gym Membership email",
-      text: `Welcome ${user.firstName}! Verify your email: ${verifyUrl}`,
-      html: `<p>Welcome ${user.firstName}!</p><p>Please verify your email:</p><a href="${verifyUrl}">${verifyUrl}</a>`,
-    });
-  } catch (err) {
-    emailStatus = "failed";
-    console.error("Email sending failed:", err);
-  }
+  // Fire-and-forget so registration responds immediately instead of
+  // waiting on the SMTP round-trip. Delivery failures are logged server-side.
+  queueEmail({
+    to: user.email,
+    subject: "Verify your Gym Membership email",
+    text: `Welcome ${user.firstName}! Verify your email: ${verifyUrl}`,
+    html: `<p>Welcome ${user.firstName}!</p><p>Please verify your email:</p><a href="${verifyUrl}">${verifyUrl}</a>`,
+  });
+
   await recordAudit({ actor: user._id, action: "register", entity: "User", entityId: user._id, req });
 
   sendSuccess(res, {
     statusCode: 201,
     message: "Registration successful. Please verify your email.",
-    data: { user, verifyUrl: env.isProd ? undefined : verifyUrl, emailStatus },
+    data: { user, verifyUrl: env.isProd ? undefined : verifyUrl, emailStatus: "sending" },
   });
 });
 
@@ -154,7 +150,7 @@ export const forgotPassword = asyncHandler(async (req, res) => {
     const resetUrl = `${env.clientUrl}/reset-password?token=${raw}&email=${encodeURIComponent(
       user.email
     )}`;
-    await sendEmail({
+    queueEmail({
       to: user.email,
       subject: "Reset your Gym Membership password",
       text: `Reset your password: ${resetUrl}`,
