@@ -5,32 +5,47 @@ import logger from "./logger.js";
 let transporter = null;
 
 const getTransporter = () => {
-  if (!env.smtp.host) return null;
+  if (!env.smtp.user || !env.smtp.pass) return null;
+
   if (!transporter) {
     transporter = nodemailer.createTransport({
-      host: env.smtp.host,
-      port: Number(env.smtp.port),
-      secure: Number(env.smtp.port) === 465,
+      service: "Gmail", // ✅ simplified Gmail config
       auth: {
         user: env.smtp.user,
         pass: env.smtp.pass,
       },
-      requireTLS: Number(env.smtp.port) === 587,
     });
+
     transporter.verify()
-      .then(() => console.log("SMTP is ready to send emails"))
+      .then(() => console.log("SMTP (Gmail) is ready to send emails"))
       .catch((err) => console.error("SMTP connection error:", err));
   }
+
   return transporter;
 };
 
 export const sendEmail = async ({ to, subject, html, text }) => {
   const t = getTransporter();
+
   if (!t) {
-    logger.info(`[EMAIL:DEV] To: ${to} | Subject: ${subject}\n${text || html}`);
+    logger.info(
+      `[EMAIL:DEV] To: ${to} | Subject: ${subject}\n${text || html}`
+    );
     return { dev: true };
   }
-  return t.sendMail({ from: env.emailFrom, to, subject, html, text });
+
+  try {
+    return await t.sendMail({
+      from: `"Gym Membership" <${env.smtp.user}>`,
+      to,
+      subject,
+      html,
+      text,
+    });
+  } catch (err) {
+    logger.error("Email send failed:", err);
+    throw err;
+  }
 };
 
 export default sendEmail;
