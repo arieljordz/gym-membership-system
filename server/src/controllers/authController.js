@@ -65,7 +65,7 @@ export const register = asyncHandler(async (req, res) => {
     });
   } catch (err) {
     emailStatus = "failed";
-    logger.error("Email sending failed:", err);
+    console.error("Email sending failed:", err);
   }
   await recordAudit({ actor: user._id, action: "register", entity: "User", entityId: user._id, req });
 
