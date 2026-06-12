@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+.pnp/
+.pnp.js
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Build output
+dist/
+build/
+client/dist/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Uploads (runtime)
+server/uploads/*
+!server/uploads/.gitkeep
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+Thumbs.db

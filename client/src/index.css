@@ -1,0 +1,96 @@
+:root {
+  --gym-primary: #fb5607;
+  --gym-accent: #ff9e00;
+  --sidebar-width: 250px;
+}
+
+body {
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+}
+
+/* ===== Auth screens ===== */
+.auth-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1f1c2c, #928dab);
+  padding: 1.5rem;
+}
+.auth-card {
+  width: 100%;
+  max-width: 460px;
+}
+.brand-badge {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--gym-primary), var(--gym-accent));
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+/* ===== App shell ===== */
+.app-shell { display: flex; min-height: 100vh; }
+.sidebar {
+  width: var(--sidebar-width);
+  flex-shrink: 0;
+  background: #11151c;
+  color: #cbd3da;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  overflow-y: auto;
+  transition: transform 0.2s ease;
+  z-index: 1040;
+}
+.sidebar a {
+  color: #cbd3da;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.65rem 1.1rem;
+  border-radius: 0.5rem;
+  margin: 0.15rem 0.6rem;
+  font-size: 0.95rem;
+}
+.sidebar a:hover { background: rgba(255, 255, 255, 0.06); color: #fff; }
+.sidebar a.active {
+  background: linear-gradient(135deg, var(--gym-primary), var(--gym-accent));
+  color: #fff;
+  font-weight: 600;
+}
+.main-area {
+  flex: 1;
+  margin-left: var(--sidebar-width);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.content { padding: 1.25rem; flex: 1; }
+
+.stat-card { border: none; border-radius: 1rem; overflow: hidden; }
+.stat-card .icon {
+  width: 48px; height: 48px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center; font-size: 1.4rem;
+}
+.qr-frame {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 1rem;
+  display: inline-block;
+}
+.cursor-pointer { cursor: pointer; }
+.table-responsive { border-radius: 0.5rem; }
+
+@media (max-width: 991.98px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .main-area { margin-left: 0; }
+}
