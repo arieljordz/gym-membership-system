@@ -26,19 +26,35 @@ export default function Register() {
 
   const submit = async (e) => {
     e.preventDefault();
+
     if (form.password !== form.confirmPassword) {
       toast.error("Passwords do not match");
       return;
     }
+
     setLoading(true);
+
     const { confirmPassword, ...payload } = form;
+
     const res = await dispatch(registerUser(payload));
+
     setLoading(false);
+
     if (registerUser.fulfilled.match(res)) {
-      toast.success(res.payload.message || "Registration successful");
-      if (res.payload.data?.verifyUrl) {
-        toast.info("Dev mode: check server console / link to verify email.");
+      const data = res.payload;
+
+      toast.success(data.message || "Registration successful");
+
+      if (data.data?.emailStatus === "failed") {
+        toast.warning(
+          "Account created, but verification email could not be sent."
+        );
       }
+
+      // if (data.data?.verifyUrl) {
+      //   toast.info("Dev mode: check server console / link to verify email.");
+      // }
+
       navigate("/login");
     } else {
       toast.error(res.payload || "Registration failed");

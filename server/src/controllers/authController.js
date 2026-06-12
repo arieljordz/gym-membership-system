@@ -53,18 +53,26 @@ export const register = asyncHandler(async (req, res) => {
   const verifyUrl = `${env.clientUrl}/verify-email?token=${verifyTokenRaw}&email=${encodeURIComponent(
     user.email
   )}`;
-  await sendEmail({
-    to: user.email,
-    subject: "Verify your Gym Membership email",
-    text: `Welcome ${user.firstName}! Verify your email: ${verifyUrl}`,
-    html: `<p>Welcome ${user.firstName}!</p><p>Please verify your email:</p><a href="${verifyUrl}">${verifyUrl}</a>`,
-  });
+  
+  let emailStatus = "sent";
+
+  try {
+    await sendEmail({
+      to: user.email,
+      subject: "Verify your Gym Membership email",
+      text: `Welcome ${user.firstName}! Verify your email: ${verifyUrl}`,
+      html: `<p>Welcome ${user.firstName}!</p><p>Please verify your email:</p><a href="${verifyUrl}">${verifyUrl}</a>`,
+    });
+  } catch (err) {
+    emailStatus = "failed";
+    logger.error("Email sending failed:", err);
+  }
   await recordAudit({ actor: user._id, action: "register", entity: "User", entityId: user._id, req });
 
   sendSuccess(res, {
     statusCode: 201,
     message: "Registration successful. Please verify your email.",
-    data: { user, verifyUrl: env.isProd ? undefined : verifyUrl },
+    data: { user, verifyUrl: env.isProd ? undefined : verifyUrl, emailStatus },
   });
 });
 
