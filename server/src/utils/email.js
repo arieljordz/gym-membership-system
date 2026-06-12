@@ -9,10 +9,17 @@ const getTransporter = () => {
   if (!transporter) {
     transporter = nodemailer.createTransport({
       host: env.smtp.host,
-      port: env.smtp.port,
-      secure: env.smtp.port === 465,
-      auth: env.smtp.user ? { user: env.smtp.user, pass: env.smtp.pass } : undefined,
+      port: Number(env.smtp.port),
+      secure: Number(env.smtp.port) === 465,
+      auth: {
+        user: env.smtp.user,
+        pass: env.smtp.pass,
+      },
+      requireTLS: Number(env.smtp.port) === 587,
     });
+    transporter.verify()
+      .then(() => console.log("SMTP is ready to send emails"))
+      .catch((err) => console.error("SMTP connection error:", err));
   }
   return transporter;
 };
